@@ -1,0 +1,94 @@
+<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1" xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow"  Height="2124" Width="2124">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="618*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="31*"/>
+        </Grid.ColumnDefinitions>
+
+        <Syncfusion:SfDataGrid      ColumnSizer="AutoWithLastColumnFill"  ItemsSource="{Binding DetailList,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="219" Margin="10,110,0,0" VerticalAlignment="Top" Width="245"  ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" >
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding Name,UpdateSourceTrigger=PropertyChanged}"  FilterBehavior="StronglyTyped"   HeaderText="Название" ValueBinding="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"/>
+                <Syncfusion:GridTextColumn DisplayBinding="{Binding Count,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" HeaderText="Количество на складе" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding Standard,UpdateSourceTrigger=PropertyChanged}"  FilterBehavior="StronglyTyped" TextAlignment="Center"  HeaderText="Норматив" />
+            </Syncfusion:SfDataGrid.Columns>
+        </Syncfusion:SfDataGrid>
+        <Label Content="Склад материалов / деталей " HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" Width="195" Height="26"/>
+        <ComboBox Text="Участок" ItemsSource="{Binding actions}" IsEditable="True" DisplayMemberPath="NameAction" SelectedValue="{Binding SelectedAction}"  HorizontalAlignment="Left" Margin="285,52,0,0" VerticalAlignment="Top" Width="103" Height="21" RenderTransformOrigin="-0.145,0.67"  >
+            <ComboBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.122"/>
+                    <TranslateTransform X="-0.065" Y="-1.062"/>
+                </TransformGroup>
+            </ComboBox.RenderTransform>
+        </ComboBox>
+        <Label Content="Склад деталей" HorizontalAlignment="Left" Margin="280,79,0,0" VerticalAlignment="Top" Height="26" Width="120"/>
+
+        <TextBox  Tag="Name of customer" Text="{Binding Sumtextbox,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="18" Margin="690,52,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.544,0.269" />
+        <Label Content="Склад деталей производства" HorizontalAlignment="Left" Margin="572,81,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.625,1.192" Height="26" Width="216"/>
+
+        <ComboBox Text="Сотрудник" IsEditable="True" ItemsSource="{Binding Users}" SelectedValue="{Binding SelectedUser}"  DisplayMemberPath="FIO" HorizontalAlignment="Left" Margin="15,52,0,0" VerticalAlignment="Top" Width="240" RenderTransformOrigin="1.308,0.682" Height="22" />
+        <Button Command="{Binding CommandParam}" CommandParameter="{Binding ElementName=wareproduct}" Content="Печать"  HorizontalAlignment="Left" Margin="502,52,0,0" VerticalAlignment="Top" Width="74" Height="20" RenderTransformOrigin="0.473,0.702"  />
+        <Syncfusion:SfDataGrid   x:Name="sfgrid"   ColumnSizer="AutoWithLastColumnFill"  ItemsSource="{Binding MaterialList,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedMaterial,UpdateSourceTrigger=PropertyChanged}"  AutoGenerateColumns="False"  HorizontalAlignment="Left" Margin="280,110,0,0" VerticalAlignment="Top" Width="259" Height="219"  ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" >
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding Priority,UpdateSourceTrigger=PropertyChanged}" AllowEditing="True" FilterBehavior="StronglyTyped" TextAlignment="Center"  HeaderText="Приоритет" ValueBinding="{Binding Path=Priority,UpdateSourceTrigger=PropertyChanged}"/>
+                <Syncfusion:GridTextColumn  AllowFiltering="True" DisplayBinding="{Binding NameDetail,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" HeaderText="Наименование" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding Time,UpdateSourceTrigger=PropertyChanged}"  FilterBehavior="StronglyTyped" HeaderText="Время" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding CountMaterial,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" HeaderText="Количество" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding CountInput,UpdateSourceTrigger=PropertyChanged}" AllowEditing="True" FilterBehavior="StronglyTyped" HeaderText="Количество выданное" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn   DisplayBinding="{Binding IdOrder,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" HeaderText="Заказ" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridCheckBoxColumn  AllowFiltering="True" DisplayBinding="{Binding IsPrint,UpdateSourceTrigger=PropertyChanged}" AllowEditing="True" FilterBehavior="StronglyTyped" HeaderText="Печать" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTemplateColumn DisplayBinding="{x:Null}" FilterBehavior="StronglyTyped" HeaderText="Выполнить" ValueBinding="{x:Null}">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <Button Content="Выполнить" Command="{Binding Path=DataContext.Addwarenew,ElementName=wareproduct}"></Button>
+                            <!--<Button Content="Выполнить" Command="{Binding Path=DataContext.AddWareProduction,ElementName=wareproduct}"></Button>-->
+                        </DataTemplate>
+
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                    <Syncfusion:GridTemplateColumn.EditTemplate>
+                        <DataTemplate/>
+                    </Syncfusion:GridTemplateColumn.EditTemplate>
+                </Syncfusion:GridTemplateColumn>
+
+            </Syncfusion:SfDataGrid.Columns>
+        </Syncfusion:SfDataGrid>
+        <Syncfusion:SfDataGrid x:Name="wareproduct"  ItemsSource="{Binding ware_Productions_New,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedProduction,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" ColumnSizer="AutoWithLastColumnFill" HorizontalAlignment="Left" Margin="572,110,0,0" VerticalAlignment="Top" Width="288" Height="219" ScrollViewer.HorizontalScrollBarVisibility="Visible" >
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn DisplayBinding="{Binding Name,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" TextAlignment="Center" HeaderText="Название" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn DisplayBinding="{Binding Count_output,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" TextAlignment="Center" HeaderText="Кол-во по заказу" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTextColumn DisplayBinding="{Binding Count_input,UpdateSourceTrigger=PropertyChanged}" FilterBehavior="StronglyTyped" TextAlignment="Center" HeaderText="Кол-во выдано" ValueBinding="{x:Null}"/>
+                <Syncfusion:GridTemplateColumn DisplayBinding="{x:Null}" FilterBehavior="StronglyTyped" HeaderText="Выполнить" ValueBinding="{x:Null}">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <Button Content="Выполнить" Command="{Binding Path=DataContext.addmaterial,ElementName=wareproduct}"></Button>
+                            <!--<Button Content="Выполнить" Command="{Binding Path=DataContext.AddWareProduction,ElementName=wareproduct}"></Button>-->
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                    <Syncfusion:GridTemplateColumn.EditTemplate>
+                        <DataTemplate/>
+                    </Syncfusion:GridTemplateColumn.EditTemplate>
+                </Syncfusion:GridTemplateColumn>
+
+            </Syncfusion:SfDataGrid.Columns>
+        </Syncfusion:SfDataGrid>
+        <ComboBox Text="Заказ №" ItemsSource="{Binding Orders}" DisplayMemberPath="Id"  SelectedValue="{Binding SelectedOrder}"  HorizontalAlignment="Left" Margin="400,52,0,0" VerticalAlignment="Top" Width="75" Height="22" RenderTransformOrigin="0.457,0.593" IsEditable="True" />
+        <ComboBox Text="Акт прихода" ItemsSource="{Binding act_Arrivals}" DisplayMemberPath="Id" HorizontalAlignment="Left" Margin="400,79,0,0" VerticalAlignment="Top" Width="95" IsEditable="True" Height="22"/>
+        <ComboBox Text="Склад" ItemsSource="{Binding sklads}" SelectedValue="{Binding SelectedSklad}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="787,48,0,0" VerticalAlignment="Top" Width="62" IsEditable="True" Height="22" RenderTransformOrigin="1.873,0.547"/>
+        <Label Content="Норматив" HorizontalAlignment="Left" Margin="620,50,0,0" VerticalAlignment="Top"/>
+
+
+    </Grid>
+</Window>
